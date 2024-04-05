@@ -3,10 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" src = "style.css">
+    <link rel = "stylesheet" type = "text/css" href = "style.css">
+    <script src = "script.js"></script>
     <title>Typescript - moment 2</title>
 </head>
 <body>
     <h1>Objektorienterad programmering</h1>
+    <main class ="textbox">
+    <div id="todo-form">
+        <h2>Lägg till ny uppgift</h2>
+        <form id="add-todo-form">
+            <label for="task">Uppgift:</label>
+            <input type="text" id="task" name="task" required>
+            
+            <label for="priority">Prioritet:</label>
+            <select id="priority" name="priority" required>
+                <option value="1">1 (Hög)</option>
+                <option value="2">2 (Medium)</option>
+                <option value="3">3 (Låg)</option>
+            </select>
+            
+            <button type="submit">Lägg till</button>
+        </form>
+    </div>
+
+    <div id="todo-list">
+        <h2>Att göra-lista</h2>
+        <ul id="todos">
+            <!-- Todo items will be added dynamically here -->
+        </ul>
+        <button id="mark-completed">Markera som klara</button>
+    </div>
+    </main>
 </body>
 </html>
