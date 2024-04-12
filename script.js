@@ -1,11 +1,8 @@
-// Steg 2: Implementera Todo-klassen
 var TodoList = /** @class */ (function () {
     function TodoList() {
         this.todos = this.loadFromLocalStorage();
     }
-    // Metod för att lägga till nya todos
     TodoList.prototype.addTodo = function (task, priority) {
-        // Kontrollera om uppgift och prioritet är korrekta
         if (!task || priority < 1 || priority > 3) {
             console.error("Felaktiga värden för uppgift eller prioritet.");
             return false;
@@ -19,25 +16,44 @@ var TodoList = /** @class */ (function () {
         this.saveToLocalStorage();
         return true;
     };
-    // Metod för att markera todos som klara
     TodoList.prototype.markTodoCompleted = function (todoIndex) {
         if (todoIndex >= 0 && todoIndex < this.todos.length) {
             this.todos[todoIndex].completed = true;
             this.saveToLocalStorage();
         }
     };
-    // Metod för att hämta hela listan av todos
     TodoList.prototype.getTodos = function () {
         return this.todos;
     };
-    // Metod för att spara todos till LocalStorage
     TodoList.prototype.saveToLocalStorage = function () {
         localStorage.setItem("todos", JSON.stringify(this.todos));
     };
-    // Metod för att hämta todos från LocalStorage
     TodoList.prototype.loadFromLocalStorage = function () {
         var storedTodos = localStorage.getItem("todos");
         return storedTodos ? JSON.parse(storedTodos) : [];
     };
     return TodoList;
 }());
+document.addEventListener("DOMContentLoaded", function () {
+    var todoForm = document.getElementById("add-todo-form");
+    var todoList = document.getElementById("todos");
+    todoForm.addEventListener("submit", function (event) {
+        event.preventDefault(); // Förhindra standardbeteendet för formuläret
+        var taskInput = document.getElementById("task");
+        var priorityInput = document.getElementById("priority");
+        var task = taskInput.value;
+        var priority = parseInt(priorityInput.value); // Konvertera prioritet till en siffra
+        // Lägg till uppgiften i listan
+        addTodo(task, priority);
+        // Återställ formuläret
+        taskInput.value = "";
+        priorityInput.value = "1";
+    });
+    function addTodo(task, priority) {
+        // Skapa ett nytt todo-element
+        var todoItem = document.createElement("li");
+        todoItem.textContent = "".concat(task, " (Prioritet: ").concat(priority, ")");
+        // Lägg till todo-elementet i listan
+        todoList.appendChild(todoItem);
+    }
+});

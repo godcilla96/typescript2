@@ -49,3 +49,34 @@ interface Todo {
       return storedTodos ? JSON.parse(storedTodos) : [];
     }
   }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const todoForm = document.getElementById("add-todo-form") as HTMLFormElement;
+    const todoList = document.getElementById("todos") as HTMLUListElement;
+
+    todoForm.addEventListener("submit", function (event) {
+        event.preventDefault(); // Förhindra standardbeteendet för formuläret
+
+        const taskInput = document.getElementById("task") as HTMLInputElement;
+        const priorityInput = document.getElementById("priority") as HTMLSelectElement;
+
+        const task = taskInput.value;
+        const priority = parseInt(priorityInput.value); // Konvertera prioritet till en siffra
+
+        // Lägg till uppgiften i listan
+        addTodo(task, priority);
+
+        // Återställ formuläret
+        taskInput.value = "";
+        priorityInput.value = "1";
+    });
+
+    function addTodo(task: string, priority: number) {
+        // Skapa ett nytt todo-element
+        const todoItem = document.createElement("li");
+        todoItem.textContent = `${task} (Prioritet: ${priority})`;
+
+        // Lägg till todo-elementet i listan
+        todoList.appendChild(todoItem);
+    }
+});
