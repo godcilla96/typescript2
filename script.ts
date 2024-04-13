@@ -1,4 +1,4 @@
-
+//skapa interface
 interface Todo {
     task: string;
     completed: boolean;
@@ -7,7 +7,7 @@ interface Todo {
   
   class TodoList {
     private todos: Todo[];
-  
+    //constructor som initierar todos-arrayen
     constructor() {
       this.todos = this.loadFromLocalStorage();
     }
@@ -55,28 +55,48 @@ interface Todo {
     const todoList = document.getElementById("todos") as HTMLUListElement;
 
     todoForm.addEventListener("submit", function (event) {
-        event.preventDefault(); // Förhindra standardbeteendet för formuläret
+        event.preventDefault();
 
         const taskInput = document.getElementById("task") as HTMLInputElement;
         const priorityInput = document.getElementById("priority") as HTMLSelectElement;
 
         const task = taskInput.value;
-        const priority = parseInt(priorityInput.value); // Konvertera prioritet till en siffra
+        const priority = parseInt(priorityInput.value); //konvertera prioritet till en siffra
 
-        // Lägg till uppgiften i listan
+        //lägg till uppgiften i listan
         addTodo(task, priority);
 
-        // Återställ formuläret
+        //återställ formuläret
         taskInput.value = "";
         priorityInput.value = "1";
     });
 
     function addTodo(task: string, priority: number) {
-        // Skapa ett nytt todo-element
-        const todoItem = document.createElement("li");
-        todoItem.textContent = `${task} (Prioritet: ${priority})`;
+      //skapa ett nytt todo-element
+      const todoItem = document.createElement("li");
+      todoItem.classList.add("todo-item");
 
-        // Lägg till todo-elementet i listan
-        todoList.appendChild(todoItem);
-    }
+      //skapa en checkbox för att markera som klar
+      const checkBox = document.createElement("input");
+      checkBox.type = "checkbox";
+      checkBox.classList.add("checkbox");
+      checkBox.addEventListener("change", function () {
+          //markera uppgiften som klar när kryssrutan är markerad
+          if (checkBox.checked) {
+              todoItem.classList.add("completed");
+          } else {
+              todoItem.classList.remove("completed");
+          }
+      });
+
+      //skapa textnoden för uppgiften
+      const taskText = document.createTextNode(`${task} (Prioritet: ${priority})`);
+
+      //lägg till checkbox och uppgiftstexten i todo-elementet
+      todoItem.appendChild(checkBox);
+      todoItem.appendChild(taskText);
+
+      //lägg till todo-elementet i listan
+      todoList.appendChild(todoItem);
+  }
 });

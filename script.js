@@ -52,7 +52,25 @@ document.addEventListener("DOMContentLoaded", function () {
     function addTodo(task, priority) {
         // Skapa ett nytt todo-element
         var todoItem = document.createElement("li");
-        todoItem.textContent = "".concat(task, " (Prioritet: ").concat(priority, ")");
+        todoItem.classList.add("todo-item");
+        // Skapa en checkbox för att markera som klar
+        var checkBox = document.createElement("input");
+        checkBox.type = "checkbox";
+        checkBox.classList.add("checkbox");
+        checkBox.addEventListener("change", function () {
+            // Markera uppgiften som klar när kryssrutan är markerad
+            if (checkBox.checked) {
+                todoItem.classList.add("completed");
+            }
+            else {
+                todoItem.classList.remove("completed");
+            }
+        });
+        // Skapa textnoden för uppgiften
+        var taskText = document.createTextNode("".concat(task, " (Prioritet: ").concat(priority, ")"));
+        // Lägg till checkbox och uppgiftstexten i todo-elementet
+        todoItem.appendChild(checkBox);
+        todoItem.appendChild(taskText);
         // Lägg till todo-elementet i listan
         todoList.appendChild(todoItem);
     }

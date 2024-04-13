@@ -3,6 +3,7 @@ body {
     background-color: rgb(233, 205, 236);
 }
 
+
 h1 {
     text-align: center;
     margin: 30px;
@@ -40,4 +41,15 @@ input {
 
 label {
     font-size: 1em;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.checkbox {
+    margin-right: 20px;
+    transform: scale(1.5);
 }
