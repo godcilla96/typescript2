@@ -53,50 +53,77 @@ interface Todo {
   document.addEventListener("DOMContentLoaded", function () {
     const todoForm = document.getElementById("add-todo-form") as HTMLFormElement;
     const todoList = document.getElementById("todos") as HTMLUListElement;
+    const markCompletedButton = document.getElementById("mark-completed") as HTMLButtonElement;
+    const checkAllButton = document.getElementById("check-all") as HTMLButtonElement;
 
     todoForm.addEventListener("submit", function (event) {
-        event.preventDefault();
+        event.preventDefault(); // Förhindra standardbeteendet för formuläret
 
         const taskInput = document.getElementById("task") as HTMLInputElement;
         const priorityInput = document.getElementById("priority") as HTMLSelectElement;
 
         const task = taskInput.value;
-        const priority = parseInt(priorityInput.value); //konvertera prioritet till en siffra
+        const priority = parseInt(priorityInput.value); // Konvertera prioritet till en siffra
 
-        //lägg till uppgiften i listan
+        // Lägg till uppgiften i listan
         addTodo(task, priority);
 
-        //återställ formuläret
+        // Återställ formuläret
         taskInput.value = "";
         priorityInput.value = "1";
     });
 
+    markCompletedButton.addEventListener("click", function () {
+        // Rensa listan med uppgifter
+        clearTodos();
+    });
+
+    checkAllButton.addEventListener("click", function () {
+        // Kryssa i alla kryssrutor
+        checkAll();
+    });
+
     function addTodo(task: string, priority: number) {
-      //skapa ett nytt todo-element
-      const todoItem = document.createElement("li");
-      todoItem.classList.add("todo-item");
+        // Skapa ett nytt todo-element
+        const todoItem = document.createElement("li");
+        todoItem.classList.add("todo-item");
 
-      //skapa en checkbox för att markera som klar
-      const checkBox = document.createElement("input");
-      checkBox.type = "checkbox";
-      checkBox.classList.add("checkbox");
-      checkBox.addEventListener("change", function () {
-          //markera uppgiften som klar när kryssrutan är markerad
-          if (checkBox.checked) {
-              todoItem.classList.add("completed");
-          } else {
-              todoItem.classList.remove("completed");
-          }
-      });
+        // Skapa en checkbox för att markera som klar
+        const checkBox = document.createElement("input");
+        checkBox.type = "checkbox";
+        checkBox.classList.add("checkbox");
+        checkBox.addEventListener("change", function () {
+            // Markera uppgiften som klar när kryssrutan är markerad
+            if (checkBox.checked) {
+                todoItem.classList.add("completed");
+            } else {
+                todoItem.classList.remove("completed");
+            }
+        });
 
-      //skapa textnoden för uppgiften
-      const taskText = document.createTextNode(`${task} (Prioritet: ${priority})`);
+        // Skapa textnoden för uppgiften
+        const taskText = document.createTextNode(`${task} (Prioritet: ${priority})`);
 
-      //lägg till checkbox och uppgiftstexten i todo-elementet
-      todoItem.appendChild(checkBox);
-      todoItem.appendChild(taskText);
+        // Lägg till checkbox och uppgiftstexten i todo-elementet
+        todoItem.appendChild(checkBox);
+        todoItem.appendChild(taskText);
 
-      //lägg till todo-elementet i listan
-      todoList.appendChild(todoItem);
-  }
+        // Lägg till todo-elementet i listan
+        todoList.appendChild(todoItem);
+    }
+
+    function clearTodos() {
+        // Rensa todos från localStorage
+        localStorage.removeItem("todos");
+        // Ta bort alla todo-element från listan
+        todoList.innerHTML = "";
+    }
+
+    function checkAll() {
+        // Kryssa i samtliga kryssrutor
+        const checkboxes = document.querySelectorAll(".checkbox");
+        checkboxes.forEach((checkbox: HTMLInputElement) => {
+            checkbox.checked = true;
+        });
+    }
 });

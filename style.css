@@ -53,3 +53,23 @@ label {
     margin-right: 20px;
     transform: scale(1.5);
 }
+
+#check-all {
+    background-color: greenyellow;
+    margin-right: 15px;
+}
+
+#check-all:hover {
+    background-color: green;
+    color: white;
+}
+
+#mark-completed {
+    background-color: red;
+
+}
+
+#mark-completed:hover {
+    background-color: darkred;
+    color: white;
+}

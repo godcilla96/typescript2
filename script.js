@@ -1,4 +1,5 @@
 var TodoList = /** @class */ (function () {
+    //constructor som initierar todos-arrayen
     function TodoList() {
         this.todos = this.loadFromLocalStorage();
     }
@@ -37,6 +38,8 @@ var TodoList = /** @class */ (function () {
 document.addEventListener("DOMContentLoaded", function () {
     var todoForm = document.getElementById("add-todo-form");
     var todoList = document.getElementById("todos");
+    var markCompletedButton = document.getElementById("mark-completed");
+    var checkAllButton = document.getElementById("check-all");
     todoForm.addEventListener("submit", function (event) {
         event.preventDefault(); // Förhindra standardbeteendet för formuläret
         var taskInput = document.getElementById("task");
@@ -48,6 +51,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // Återställ formuläret
         taskInput.value = "";
         priorityInput.value = "1";
+    });
+    markCompletedButton.addEventListener("click", function () {
+        // Rensa listan med uppgifter
+        clearTodos();
+    });
+    checkAllButton.addEventListener("click", function () {
+        // Kryssa i alla kryssrutor
+        checkAll();
     });
     function addTodo(task, priority) {
         // Skapa ett nytt todo-element
@@ -73,5 +84,18 @@ document.addEventListener("DOMContentLoaded", function () {
         todoItem.appendChild(taskText);
         // Lägg till todo-elementet i listan
         todoList.appendChild(todoItem);
+    }
+    function clearTodos() {
+        // Rensa todos från localStorage
+        localStorage.removeItem("todos");
+        // Ta bort alla todo-element från listan
+        todoList.innerHTML = "";
+    }
+    function checkAll() {
+        // Hämta alla kryssrutor
+        var checkboxes = document.querySelectorAll(".checkbox");
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = true;
+        });
     }
 });
